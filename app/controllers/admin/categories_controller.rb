@@ -11,6 +11,7 @@ class Admin::CategoriesController < Admin::BaseController
         @category = Category.new
       }
     end
+    #render "new"
   end
 
   def destroy
@@ -25,6 +26,11 @@ class Admin::CategoriesController < Admin::BaseController
 
   def new_or_edit
     @categories = Category.find(:all)
+    if params[:id].nil?
+      @category = Category.new
+      return render "admin/categories/new"
+    end
+    
     @category = Category.find(params[:id])
     @category.attributes = params[:category]
     if request.post?
@@ -39,9 +45,10 @@ class Admin::CategoriesController < Admin::BaseController
       end
       return
     end
+    
     render 'new'
   end
-
+# rails s -p $PORT -b $IP
   def save_category
     if @category.save!
       flash[:notice] = _('Category was successfully saved.')

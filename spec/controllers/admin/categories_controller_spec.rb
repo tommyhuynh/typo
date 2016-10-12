@@ -10,11 +10,17 @@ describe Admin::CategoriesController do
     henri = Factory(:user, :login => 'henri', :profile => Factory(:profile_admin, :label => Profile::ADMIN))
     request.session = { :user => henri.id }
   end
-
+  
   it "test_index" do
     get :index
     assert_response :redirect, :action => 'index'
   end
+  
+  it "renders new template" do 
+    get :new
+    expect(response).to render_template("admin/categories/new")
+  end
+  
 
   describe "test_edit" do
     before(:each) do
