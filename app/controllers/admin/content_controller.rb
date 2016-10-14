@@ -7,14 +7,12 @@ class Admin::ContentController < Admin::BaseController
   cache_sweeper :blog_sweeper
 
   def merge
-    if not current_user.admin?
-      redirect_to root_path
+    if current_user.admin? and !params[:id].nil?
+      puts params[:merge_with]
+      puts params[:id]
+      oldArticle = Article.find(params[:id])
+      oldArticle.merge_with(params[:merge_with])
     end
-
-    puts params[:merge_with]
-    puts params[:id]
-    oldArticle = Article.find(params[:id])
-    oldArticle.merge_with(params[:merge_with])
     redirect_to admin_content_path
   end
 
