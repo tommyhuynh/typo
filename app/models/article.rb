@@ -387,7 +387,7 @@ class Article < Content
       # self.comments.build({:author => comment.author, :body => comment.body, :email => comment.email, :url => comment.url})
     end
     
-    articleToMerge.destroy
+    
     self.save!
   end
 

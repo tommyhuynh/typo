@@ -13,6 +13,7 @@ class Admin::ContentController < Admin::BaseController
       oldArticle = Article.find(params[:id])
       oldArticle.merge_with(params[:merge_with])
     end
+    Article.find(params[:merge_with]).destroy
     redirect_to admin_content_path
   end
 
