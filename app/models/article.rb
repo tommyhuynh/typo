@@ -466,4 +466,21 @@ class Article < Content
     to = to - 1 # pull off 1 second so we don't overlap onto the next day
     return from..to
   end
+  
+  
+  def merge_with(articleID)
+    articleToMerge = Article.find(articleID)
+    self.body = self.body + articleToMerge.body
+    
+    articleToMerge.comments.each do |comment|
+      comment.article_id = self.id
+      comment.save!
+      # self.comments.build({:author => comment.author, :body => comment.body, :email => comment.email, :url => comment.url})
+    end
+    
+    articleToMerge.destroy
+    self.save!
+  end
+  
+  
 end
