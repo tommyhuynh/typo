@@ -36,6 +36,8 @@ class Article < Content
     end
 
   end
+  
+  
 
   with_options(:conditions => { :published => true }, :order => 'created_at DESC') do |this|
     this.has_many :published_comments,   :class_name => "Comment", :order => "created_at ASC"
@@ -120,6 +122,18 @@ class Article < Content
       eval(list_function.join('.'))
     end
 
+  end
+  
+  def merge_with(articleID)
+    articleToMerge = Article.find(articleID)
+    self.body = self.body + articleToMerge.body
+    
+    articleToMerge.comments.each do |comment|
+      comment.article_id = self.id
+      comment.save!
+      # self.comments.build({:author => comment.author, :body => comment.body, :email => comment.email, :url => comment.url})
+    end
+    self.save!
   end
 
   def year_url
@@ -377,19 +391,7 @@ class Article < Content
     [:body, :extended]
   end
   
-  def merge_with(articleID)
-    articleToMerge = Article.find(articleID)
-    self.body = self.body + articleToMerge.body
-    
-    articleToMerge.comments.each do |comment|
-      comment.article_id = self.id
-      comment.save!
-      # self.comments.build({:author => comment.author, :body => comment.body, :email => comment.email, :url => comment.url})
-    end
-    
-    
-    self.save!
-  end
+  
 
   # The web interface no longer distinguishes between separate "body" and
   # "extended" fields, and instead edits everything in a single edit field,
