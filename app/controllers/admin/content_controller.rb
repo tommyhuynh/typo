@@ -7,7 +7,7 @@ class Admin::ContentController < Admin::BaseController
   cache_sweeper :blog_sweeper
 
   def merge
-    if current_user.admin? and !params[:id].nil?
+    if current_user.admin? and !params[:merge_with].blank?
       puts params[:merge_with]
       puts params[:id]
       oldArticle = Article.find(params[:id])

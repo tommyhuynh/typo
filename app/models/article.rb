@@ -376,6 +376,20 @@ class Article < Content
   def content_fields
     [:body, :extended]
   end
+  
+  def merge_with(articleID)
+    articleToMerge = Article.find(articleID)
+    self.body = self.body + articleToMerge.body
+    
+    articleToMerge.comments.each do |comment|
+      comment.article_id = self.id
+      comment.save!
+      # self.comments.build({:author => comment.author, :body => comment.body, :email => comment.email, :url => comment.url})
+    end
+    
+    articleToMerge.destroy
+    self.save!
+  end
 
   # The web interface no longer distinguishes between separate "body" and
   # "extended" fields, and instead edits everything in a single edit field,
@@ -468,19 +482,7 @@ class Article < Content
   end
   
   
-  def merge_with(articleID)
-    articleToMerge = Article.find(articleID)
-    self.body = self.body + articleToMerge.body
-    
-    articleToMerge.comments.each do |comment|
-      comment.article_id = self.id
-      comment.save!
-      # self.comments.build({:author => comment.author, :body => comment.body, :email => comment.email, :url => comment.url})
-    end
-    
-    articleToMerge.destroy
-    self.save!
-  end
+  
   
   
 end
