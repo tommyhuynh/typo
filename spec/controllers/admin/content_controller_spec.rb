@@ -5,7 +5,9 @@ describe Admin::ContentController do
 
   # Like it's a shared, need call everywhere
   shared_examples_for 'index action' do
-
+    
+    
+    
     it 'should render template index' do
       get 'index'
       response.should render_template('index')
