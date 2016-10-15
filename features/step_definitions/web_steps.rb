@@ -41,11 +41,11 @@ Given /^the blog is set up$/ do
                 :profile_id => 1,
                 :name => 'admin',
                 :state => 'active'})
-  User.create!({:login => 'joe',
-                :password => 'aaaaaaaa',
-                :email => 'joe@snow1.com',
+  User.create!({:login => 'user',
+                :password => 'useruseruser',
+                :email => 'user@user.com',
                 :profile_id => 2,
-                :name => 'joe',
+                :name => 'user',
                 :state => 'active'})
 end
 
